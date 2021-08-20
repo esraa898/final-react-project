@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Product from "./product";
+import Zerostate from "./Zerostate";
 class Products extends Component{
     state={
         serchTerm:"",
@@ -32,9 +33,13 @@ serchTerm:e.target.value
              <input type="text" placeholder="search..."onChange={this.handelSearchTerm}/>
             {newfilterItems.length? newfilterItems.map((item)=>(
 
-                 <Product singleitem={item} key={item.id}  addtoFav= {this.props.addtoFav} deleteItem={this.props.deleteItem}/>
+                 <Product singleitem={item}
+                  key={item.id} 
+                   addtoFav= {this.props.addtoFav} 
+                   deleteItem={this.props.deleteItem} 
+                    addItemcart={this.props.addItemcart}/>
              ))
-            :"thereis no items"}
+            : <Zerostate/>}
          </div>
 
 

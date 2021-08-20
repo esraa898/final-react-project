@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 function Navbar(){
 
     return (
-        <div>
+        <div >
             <ul>
             <li>
                     <NavLink   to="/"> Home</NavLink>
@@ -17,6 +17,9 @@ function Navbar(){
                 </li>
                 <li>
                     <NavLink   to="/favourites"> Favourite</NavLink>
+                </li>
+                <li>
+                    <NavLink   to="/cart"> Carts</NavLink>
                 </li>
                 
             </ul>

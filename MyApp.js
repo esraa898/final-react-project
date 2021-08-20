@@ -6,6 +6,9 @@ import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import CreateProduct from "./Components/Create";
 import Favourites from "./Components/Favourits";
+import Cart from "./Components/cart";
+import "./myapp.css";
+
 
 
 
@@ -22,6 +25,7 @@ class MyApp extends Component{
     newprice:"",
     redirect:false,
     favourites:[],
+    cartitems:[],
   }
   
   handelChangeInput=(e)=>{
@@ -63,11 +67,39 @@ newprice:""
     favourites:[...favourites ,item]
   })
  }
- removefromFav=()=>{
-   let favourites=[...this.state.favourites]
+ removefromFav=(id)=>{
+   let favourites=[...this.state.favourites];
+   let newfavourites= favourites.filter((fav)=> fav.id !== id);
+   this.setState({
+     favourites:newfavourites
+   })
  }
+addItemcart=(prd)=>{
+let existeditem=this.state.cartitems.find((item)=> item.id === prd.id);
+if (existeditem){
+  let cartitems=this.state.cartitems.map((item)=> item.id ===prd.id ?{...existeditem,qty: existeditem.qty +1} :item);
+ this.setState({cartitems})
+}else{
+  this.setState({
+    cartitems:[...this.state.cartitems,{...prd,qty:1}],
+  })
+}
+}
+removeItemcart=(prd)=>{
+  let existeditem =this.state.cartitems.find((item)=> item.id ===prd.id);
+  if(existeditem.qty === 1){
+    let cartitems =this.state.cartitems.filter((item)=> item.id !== prd.id);
+    this.setState({cartitems})
+
+  }else{
+    let cartitems=this.state.cartitems.map((item)=>item.id === prd.id ? 
+     {...existeditem,qty: existeditem.qty -1}:item);
+     this.setState({cartitems})
+  }
+
+}
   render(){
-    console.log(this.state.products)
+   
     return (
       <BrowserRouter>
      
@@ -76,7 +108,7 @@ newprice:""
       
       <Route path="/" exact component={Home}/>
         <Route  path="/products" render={(props)=>{
-          return <Products items={this.state.products}{...props} deleteItem={this.deleteItem}  addtoFav={this.addtoFav} />
+          return <Products items={this.state.products}{...props} deleteItem={this.deleteItem}  addtoFav={this.addtoFav}  addItemcart={this.addItemcart} />
         }}/>
           <Route  path="/create" render={(props)=>{
           return <CreateProduct handelChangeInput={this.handelChangeInput} addItem={this.addItem}
@@ -84,9 +116,16 @@ newprice:""
           
           }}/>
           <Route path="/favourites" render={(props)=>{
-            return <Favourites {...props}  favourites={this.state.favourites}/>;
+            return <Favourites {...props}  favourites={this.state.favourites} removefromFav={this.removefromFav}/>;
           }}/>
-   
+        
+        <Route path="/cart" render={(props)=>{
+            return <Cart   cartitems={this.state.cartitems} addItemcart={this.addItemcart}removeItemcart={this.removeItemcart}{...props}  />;
+          }}/>
+        
+          
+         
+           
         
       </BrowserRouter>
     

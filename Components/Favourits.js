@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import Zerostate from "./Zerostate";
 class Favourites extends Component{
     render(){ 
-         const {favourites}=this.props;
-         console.log (favourites)
+         const {favourites ,removefromFav}=this.props;
+        
     return (
       
         <div>
@@ -10,11 +11,11 @@ class Favourites extends Component{
              favourites.map((item)=>(
         <div key={item.id}>
             {item.id}-{item.title}
-            <button>  Remove from favourite</button>
+            <button onClick={()=>removefromFav(item.id)}>  <i className="fa fa-trash"/></button>
         </div> 
          
     ))
-    :"thereis no items" }
+    :<Zerostate/> }
     </div>
     );
 }}
